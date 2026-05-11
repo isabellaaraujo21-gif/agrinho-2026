@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador Agrinho 2026 - Estufa Sustentável</title>
+    <style>
+        :root {
+            --verde-agro: #2d5a27;
+            --terra: #634133;
+            --morango: #e3242b;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f4f0;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            max-width: 500px;
+            width: 100%;
+            border-top: 8px solid var(--verde-agro);
+        }
+
+        h1 { color: var(--verde-agro); text-align: center; font-size: 1.5rem; }
+        
+        .control-group { margin-bottom: 20px; }
+        
+        label { display: block; font-weight: bold; margin-bottom: 5px; color: var(--terra); }
+        
+        input[type="range"] { width: 100%; cursor: pointer; }
+
+        .display-valor { font-weight: bold; color: var(--verde-agro); }
+
+        .planta-box {
+            text-align: center;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        #status-emoji { font-size: 4rem; display: block; }
+        
+        #feedback {
+            margin-top: 10px;
+            font-weight: bold;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .sustentavel { background: #d4edda; color: #155724; }
+        .alerta { background: #fff3cd; color: #856404; }
+        .perigo { background: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🍓 Simulador de Estufa Sustentável</h1>
+    <p style="font-size: 0.9rem; text-align: center;">Equilíbrio entre Produção e Meio Ambiente</p>
+    <hr>
+
+    <div class="control-group">
+        <label>Temperatura: <span id="val-temp" class="display-valor">22</span>°C</label>
+        <input type="range" id="temp" min="0" max="45" value="22">
+    </div>
+
+    <div class="control-group">
+        <label>Umidade do Solo: <span id="val-umidade" class="display-valor">70</span>%</label>
+        <input type="range" id="umidade" min="0" max="100" value="70">
+    </div>
+
+    <div class="control-group">
+        <label>pH do Solo: <span id="val-ph" class="display-valor">6.0</span></label>
+        <input type="range" id="ph" min="0" max="14" step="0.1" value="6.0">
+    </div>
+
+    <div class="planta-box">
+        <span id="status-emoji">🌿</span>
+        <div id="feedback" class="sustentavel">Ambiente em Equilíbrio</div>
+    </div>
+
+    <footer style="margin-top: 20px; font-size: 0.7rem; color: gray; text-align: center;">
+        Projeto Agrinho 2026 - Futuro Sustentável
+    </footer>
+</div>
+
+<script>
+    // Selecionando os elementos
+    const inputs = document.querySelectorAll('input');
+    const feedback = document.getElementById('feedback');
+    const emoji = document.getElementById('status-emoji');
+
+    function atualizarSimulacao() {
+        // Pegando os valores atuais
+        const temp = parseFloat(document.getElementById('temp').value);
+        const umidade = parseFloat(document.getElementById('umidade').value);
+        const ph = parseFloat(document.getElementById('ph').value);
+
+        // Atualizando os textos na tela
+        document.getElementById('val-temp').innerText = temp;
+        document.getElementById('val-umidade').innerText = umidade;
+        document.getElementById('val-ph').innerText = ph;
+
+        // Lógica de Equilíbrio Sustentável
+        let mensagem = "";
+        let classe = "";
+
+        if (temp >= 18 && temp <= 25 && umidade >= 60 && umidade <= 80 && ph >= 5.5 && ph <= 6.5) {
+            mensagem = "Condições Ideais! Produção Forte e Sustentável.";
+            classe = "sustentavel";
+            emoji.innerText = "🍓";
+        } else if (temp > 32 || umidade < 30 || ph < 4) {
+            mensagem = "ALERTA: Estresse hídrico/térmico alto!";
+            classe = "perigo";
+            emoji.innerText = "🥀";
+        } else {
+            mensagem = "Ajuste fino necessário para evitar desperdícios.";
+            classe = "alerta";
+            emoji.innerText = "🌿";
+        }
+
+        feedback.innerText = mensagem;
+        feedback.className = classe;
+    }
+
+    // Adiciona evento de mudança em cada slider
+    inputs.forEach(input => {
+        input.addEventListener('input', atualizarSimulacao);
+    });
+
+    // Iniciar
+    atualizarSimulacao();
+</script>
+
+</body>
+</html>
